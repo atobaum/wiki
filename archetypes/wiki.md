@@ -1,9 +1,9 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
-summary: 
+summary: ''
 layout: wiki
-parent: 
-tags: 
+parent: ''
+tags: []
 toc: false
 latex: false
 date: {{ .Date }}

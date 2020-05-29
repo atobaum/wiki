@@ -1,0 +1,7 @@
+<ul class="tag-list">
+{{ range . }}
+<li class="tag">
+	<a href="{{ "tags" | absURL }}/{{ . | urlize }}">#{{ . }}</a>
+</li>
+{{ end }}
+</ul>

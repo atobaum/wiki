@@ -1,0 +1,51 @@
+body *{
+	margin: 0;
+	padding: 0;
+}
+
+header{
+	width: 100%;
+	border-bottom: 1px solid black;
+}
+
+#main-nav{
+	link-style: none;
+}
+
+#main-nav li{
+	display: inline-block;
+}
+
+.flex{
+	display: flex;
+}
+
+.flex-ac{
+	align-items: center;
+}
+
+.flex-jc{
+	justify-content: center;
+}
+
+.flex-jsb{
+	justify-content: space-between;
+}
+
+#main{
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.tag-list{
+	list-style: none;
+	display: flex;
+}
+
+.tag + .tag {
+	margin-left: 0.3rem;
+}
+.tag a{
+	text-decoration: none;
+	color: gray;
+}

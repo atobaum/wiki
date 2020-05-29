@@ -1,0 +1,17 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+<div>
+{{ .Summary }}
+</div>
+{{ partial "tag_list.html" .Params.tags }}
+parent: {{ .Params.parent }}
+<div>
+	{{ .Date.Format .Site.Params.DateFormat }}
+	created: {{ .PublishDate.Format .Site.Params.DateFormat }}
+	updated: {{ .Lastmod.Format .Site.Params.DateFormat }}
+	{{ .ReadingTime }} min
+	<article>
+		{{ .Content }}
+	</article>
+</div>
+{{ end }}

@@ -1,0 +1,12 @@
+{{ define "main" }}
+ <h1>post</h1>
+ <ul>
+ {{ range .Site.RegularPages.ByLastmod }}
+	<li>
+		<a href="{{ .Permalink }}">
+			{{ .Title }} - {{ .Lastmod.Format .Site.Params.DateFormat }} 수정 
+		</a>
+	</li>
+ {{ end }}
+ </ul>
+{{ end }}

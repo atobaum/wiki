@@ -7,7 +7,7 @@ tags: []
 toc: false
 latex: false
 date: {{ .Date }}
-updated: {{ .Date }}
+lastmod: {{ .Date }}
 draft: true
 ---
 

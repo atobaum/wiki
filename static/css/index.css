@@ -1,19 +1,44 @@
-body *{
-	margin: 0;
-	padding: 0;
+:root{
+	--bg-color: #ffc421;
+	--bg-color-lower: hsl(0, 0%, 95%);
 }
 
-header{
+#gheader{
 	width: 100%;
 	border-bottom: 1px solid black;
+	background-color: var(--bg-color);
+	padding: 1rem;
 }
 
-#main-nav{
+#gheader a{
+	text-decoration: none;
+	color: black;
+	font-weight: 600;
+}
+
+#logo{
+	font-size: 1.5rem;
+}
+
+#gnb{
 	link-style: none;
 }
 
-#main-nav li{
+#gnb li{
 	display: inline-block;
+	font-size: 1.2rem;
+	margin: 0 0.3rem;
+}
+
+.social-btn{
+	display: inline-block;
+	padding: 0.6rem;
+	border-radius: 8px;
+	font-weight: 600;
+	text-decoration: none;
+	color: black;
+	margin: 0.3rem;
+	background-color: var(--bg-color);
 }
 
 .flex{
@@ -45,7 +70,66 @@ header{
 .tag + .tag {
 	margin-left: 0.3rem;
 }
+
 .tag a{
 	text-decoration: none;
 	color: gray;
+}
+
+.content-summary{
+	color: gray;
+}
+
+.content-meta{
+	float: right;
+}
+
+.content-article{
+	margin-top: 3rem;
+}
+
+.content-article h1{
+	font-size: 2.5rem;
+	margin-bottom: 1rem;
+	border-bottom: 1.5px solid gray;
+}
+.content-article h2{
+	margin-bottom: 1rem;
+	border-bottom: 1px solid gray;
+}
+.content-article h3{
+	margin-bottom: 0.5rem;
+}
+.content-article p{
+	margin-bottom: 1rem;
+}
+.content-article ul{
+	list-style: circle;
+	margin: 1rem;
+}
+.content-article ol{
+	list-style: decimal;
+	margin: 1rem;
+}
+.content-article li{
+	margin: 5px 0;
+}
+.content-article code{
+	padding: 2.5px 5px;
+	font-size: 90%;
+	background-color: var(--bg-color-lower);
+}
+.content-article pre code{
+	padding: 0;
+	font-size: .9rem;
+	background-color: unset;
+}
+.content-article pre{
+	overflow: auto;
+	overflow-wrap: normal;
+	word-wrap: normal;
+	padding: 0.7rem;
+	background-color: var(--bg-color-lower);
+	margin: 2rem 0;
+	line-height: 1.6;
 }

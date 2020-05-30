@@ -1,10 +1,17 @@
 {{ define "main" }}
- <h1>post</h1>
+
+{{ range .Site.Params.Social }}
+{{ with .github }}
+<a class="social-btn" href="https://www.github.com/{{ . }}">Github</a>
+{{ end }}
+{{ end }}
+
+ <h1>최근에 수정된 문서</h1>
  <ul>
- {{ range .Site.RegularPages.ByLastmod }}
+ {{ range where .Site.RegularPages.ByLastmod "Title" "!=" ""}}
 	<li>
 		<a href="{{ .Permalink }}">
-			{{ .Title }} - {{ .Lastmod.Format .Site.Params.DateFormat }} 수정 
+			{{ .Lastmod.Format .Site.Params.DateFormat }} - {{ .Title }}
 		</a>
 	</li>
  {{ end }}

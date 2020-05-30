@@ -7,16 +7,17 @@
 			{{ .Site.Title }}
 		{{ end }}</title>
 		<link rel="stylesheet" href="{{ "css" | absURL }}/index.css" />
+		<link rel="stylesheet" href="{{ "css" | absURL }}/reset.css" />
 	</head>
 	<body>
 		<div id="wrap">
-			<header>
+			<header id="gheader">
 				<div class="flex flex-jsb">
-					<div>
+					<div id="logo">
 						<a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a>
 					</div>
 					<nav class="right0">
-						<ul id="main-nav">
+						<ul id="gnb">
 						{{ range .Site.Menus.main }}
 							<li>
 								<a href="{{ .URL }}">{{ .Name }}</a>

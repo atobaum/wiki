@@ -1,17 +1,30 @@
 {{ define "main" }}
 <h1>{{ .Title }}</h1>
-<div>
+<h3 class="content-summary">
 {{ .Summary }}
-</div>
-{{ partial "tag_list.html" .Params.tags }}
-parent: {{ .Params.parent }}
+</h3>
+
 <div>
-	{{ .Date.Format .Site.Params.DateFormat }}
-	created: {{ .PublishDate.Format .Site.Params.DateFormat }}
-	updated: {{ .Lastmod.Format .Site.Params.DateFormat }}
-	{{ .ReadingTime }} min
-	<article>
-		{{ .Content }}
-	</article>
-</div>
+	<div>
+	{{ partial "tag_list.html" .Params.tags }}
+	{{ with .Params.parent }}
+	상위항목: <a href="{{ "wiki" | absURL }}/{{ . | urlize }}">{{ . }}</a>
+	{{ end }}
+	</div>
+	<div class="content-meta">
+<ul>
+	<li>
+작성: {{ .PublishDate.Format .Site.Params.DateFormat }}
+	<li>
+	</li>
+수정: {{ .Lastmod.Format .Site.Params.DateFormat }}
+	</li>
+</ul>
+{{ .ReadingTime }} 분 걸려요.
+	</div>
+<div>
+
+<article class="content-article">
+	{{ .Content }}
+</article>
 {{ end }}

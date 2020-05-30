@@ -9,7 +9,9 @@ googleAnalytics: ""
 hasCJKLanguage: true
 
 frontmatter:
-    date: [":fileModTime", ":git", "lastmod", "date"]
+    date: ["date", ":git", "lastmod", ":fileModTime"]
+    publishDate: [":default", ":fileModTime"]
+    lastmod: [":default", ":fileModTime"]
 
 menu:
     main:
@@ -23,3 +25,5 @@ menu:
           url: /about
 params:
     DateFormat: "2006-01-01"
+    Social:
+        - github: atobaum

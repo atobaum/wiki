@@ -287,7 +287,7 @@ yay는 AUR을 사용하기 편하게 해주는 wrapper이다.
 한꺼번에 설치하기 위해 적어놓는다. 알아서 취사선택
 
 ```
-# pacman -S xf-86-video-intel xorg-server xorg-apps compton lightdm lightdm-gtk-greeter uim intel-ucode xautomation neovim rxvt-unicode ranger xcape feh zsh als-utils pulseaudio pavucontrol qbittorent vlc cups
+# pacman -S xf-86-video-intel xorg-server xorg-apps compton lightdm lightdm-gtk-greeter uim intel-ucode xautomation neovim rxvt-unicode ranger xcape feh zsh als-utils pulseaudio pavucontrol qbittorent vlc cups unclutter
 ```
 * xf86-video-intel: intel graphics driver
 * lightdm: display manager
@@ -306,6 +306,7 @@ yay는 AUR을 사용하기 편하게 해주는 wrapper이다.
 * qbittorent
 * vlc
 * cups: printer server
+* unclutter: 마우스 사용 안할 때 마우스 포인터 숨기기
 
 ```
 $ yay -S i3-gaps rofi polybar siji ttf-nanum xbindkeys brave xidlehook visual-studio-code-bin

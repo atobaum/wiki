@@ -3,7 +3,7 @@ name: github pages
 on:
   push:
     branches:
-      - master
+      - wiki
 
 jobs:
   deploy:
@@ -26,5 +26,6 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
+          publish_branch: master
           publish_dir: ./public
           github_token: ${{ secrets.GITHUB_TOKEN }}

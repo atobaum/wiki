@@ -1,0 +1,100 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width"><title>Atobaum Wiki</title><link rel=stylesheet href=https://atobaum.github.io/css/index.css><link rel=stylesheet href=https://atobaum.github.io/css/reset.css><link rel=apple-touch-icon sizes=180x180 href=https://atobaum.github.io/fav/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=https://atobaum.github.io/fav/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=https://atobaum.github.io/fav/favicon-16x16.png><link rel=manifest href=https://atobaum.github.io/fav/site.webmanifest></head><body><div id=wrap><header id=gheader><div class="flex flex-jsb"><div id=logo><a href=https://atobaum.github.io>Atobaum Wiki</a></div><nav class=right0><ul id=gnb><li><a href=/about>about</a></li><li><a href=/>all</a></li><li><a href=/random>random</a></li><li><a href=/tags>tags</a></li></ul></nav></div><div id=search class=flex-end>searchbar</div></header><div id=main><h1>Arch linux 설치 가이드</h1><h3 class=content-summary>Arch linux를 설치해보자.</h3><div><div><ul class=tag-list><li class=tag><a href=https://atobaum.github.io/tags/arch>#Arch</a></li><li class=tag><a href=https://atobaum.github.io/tags/guide>#Guide</a></li></ul>상위항목: <a href=https://atobaum.github.io/wiki/linux>Linux</a></div><div class=content-meta><ul><li>작성: 2020-05-05<li></li>수정: 2020-05-05</li></ul>6 분 걸려요.</div><div><article class=content-article><h1 id=설치하기-전에>설치하기 전에</h1><p>이 글에 있는 코드 중 <code>#</code>는 root 사용자의 프롬프트, <code>$</code>는 일반 사용자 계정의 프롬프트를 나타낸다. 즉 <code>#</code> 뒤에 오는 명령어는 root 권한으로 실행시켜야 하고 <code>$</code> 뒤에 오는 명령어는 일반 사용자 계정으로 실행시켜도 된다.</p><p>진행하다 어려움이 생기면 <a href=https://wiki.archlinux.org/index.php/Installation_guide>ArchWiki</a>를 참고하라.</p><h1 id=설치-준비>설치 준비</h1><h2 id=설치-usb-만들기>설치 USB 만들기</h2><h3 id=windows>Windows</h3><p><a href=https://rufus.ie/>Rufus</a>를 이용한다.</p><h3 id=linux>Linux</h3><p>USB를 꽂고 아래 명령을 실행해 장치명을 확인한다.</p><pre><code>$ lsblk
+</code></pre><p>이제 usb를 포맷하고 iso파일을 구워준다.</p><pre><code># wipefs --all /dev/sdb
+# dd if=/path/to/iso/file of=/dev/sdb bs=4M &amp;&amp; sync
+</code></pre><p><code>/dev/sdb</code>는 위에서 확인한 장치명으로 바꿔주어야한다.</p><h1 id=설치>설치</h1><p>이제 USB를 꼽고 재부팅을 한다. 재부팅 중 바이오스/UEFI 진입키를 이용해 USB로 부팅한다.</p><p>여기서는 UEFI/GPT로 설치한다고 하자.</p><pre><code># ls /sys/firmware/efi
+</code></pre><p>결과에 <code>efivars</code>가 있으면 UEFI로 설치할 수 있다.</p><h2 id=인터넷-연결-확인>인터넷 연결 확인</h2><p>Arch linux는 설치할 때 패키지를 인터넷에서 가져오기 때문에 인터넷에 연결되어있어야 한다. 다음 명령으로 인터넷 연결을 확인한다.</p><pre><code># ping -c 1 www.google.com
+</code></pre><h3 id=wifi로-연결>Wifi로 연결</h3><p>만약 이더넷이 아니라 wifi로 연결할 때는 다음 명령으로 <code>$ wiki-menu</code>로 wifi를 연결하자.</p><h2 id=파티션-나누기>파티션 나누기</h2><p><code>lsblk</code>로 설치할 디스크 이름을 확인해둔다. 이제 파티션 계획을 세워야 한다. 여기서는 다음과 같이 파티션을 만들기로 한다.</p><table><thead><tr><th align=center>파티션 명</th><th>용도</th><th>파일 시스템</th><th>용량</th><th>코드</th></tr></thead><tbody><tr><td align=center>/dev/sda1</td><td>EFI 파티션</td><td>FAT32</td><td>200MB</td><td>EF00</td></tr><tr><td align=center>/dev/sda2</td><td>/</td><td>EXT4</td><td>40GB</td><td>8304</td></tr><tr><td align=center>/dev/sda3</td><td>/home</td><td>EXT4</td><td>나머지</td><td>8302</td></tr></tbody></table><p><code>gdisk</code>를 이용해 파티션을 나누자.</p><pre><code># gdisk /dev/sda
+</code></pre><pre><code>`o` 입력: 디스크를 모두 지우고 새로 만든다.
+`n`: 파티션 만들기 (new)
+(default가 1로 되어있는지 확인/아닐 경우 ‘1’을 입력)
+
+첫 섹터는 알아서 계산된다. 따라서 `엔터`
+라스트 섹터는 용량으로 입력할 수 있다. `+200mb`입력
+파일 시스템 코드는 `EF00`(EFI system partition) 입력
+
+`p`를 입력해 제대로 됐는지 확인할 수 있다.
+
+다른 파티션도 반복해서 만든다.
+
+`w`로 저장
+</code></pre><h2 id=포맷>포맷</h2><p>이제 포맷을 시작한다.</p><pre><code># mkfs.vfat -F32 /dev/sda1
+# mkfs.ext4 /dev/sda2
+# mkfs.ext4 /dev/sda3
+</code></pre><h2 id=마운트>마운트</h2><pre><code># mount /dev/sda2 /mnt
+# mkdir /mnt/boot /mnt/home
+# mount /dev/sda1 /mnt/boot
+# mount /dev/sda3 /mnt/home
+
+</code></pre><h1 id=패키지-설치>패키지 설치</h1><h3 id=미러-수정>미러 수정</h3><p>패키지를 받아오는 미러를 변경해야 속도가 빠르다. <code>/etc/pacman.d/mirrorlist</code> 파일을 수정하자.</p><p><a href=https://www.archlinux.org/mirrorlist/>아치 리눅스 미러리스트 페이지</a>에서 참고하거나 다음 미러를 사용한다.</p><pre><code>##
+## Arch Linux repository mirrorlist
+## Filtered by mirror score from mirror status page
+## Generated on 2020-05-21
+##
+
+## South Korea
+#Server = http://mirror.premi.st/archlinux/$repo/os/$arch
+## South Korea
+#Server = https://ftp.lanet.kr/pub/archlinux/$repo/os/$arch
+## South Korea
+#Server = http://ftp.harukasan.org/archlinux/$repo/os/$arch
+## South Korea
+#Server = https://ftp.harukasan.org/archlinux/$repo/os/$arch
+## South Korea
+#Server = http://ftp.lanet.kr/pub/archlinux/$repo/os/$arch
+</code></pre><h2 id=기본-패키지-설치>기본 패키지 설치</h2><pre><code>pacstrap /mnt base linux linux-firmware base-devel
+</code></pre><p>설치 완료되면 마운트 정보를 만들고 시스템에 진입한다.</p><pre><code># genfstab -U /mnt &gt;&gt; /mnt/etc/fstab
+# arch-chroot /mnt
+</code></pre><h1 id=설정>설정</h1><p>먼저 필요한 패키지들을 설치한다.</p><pre><code># pacman -Syu # 패키지 업데이트
+# pacman -S vim ntp networkmanager grub efibootmgr git xorg-server xorg-apps
+</code></pre><ul><li>vim: 텍스트 에디터</li><li>ntp: 시간 설정</li><li>networkmanager: 이더넷만 사용할 것이라면 dhcpd도 고려해봐라.</li><li>grub: 부트로더</li><li>efibootmfr: UEFI 부팅시 필요하다.</li><li>git</li><li>xorg-server, xorg-apps: X11 server</li></ul><h2 id=타임존-설정>타임존 설정</h2><p>한국 시간대로 설정한다.</p><pre><code># ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+</code></pre><blockquote><p>ln: 링크를 만드는 명령어.
+-s: symbolic link
+-f: force; replace if already exists</p></blockquote><h2 id=시간동기화>시간동기화</h2><p>시간을 서버에서 가져와 동기화하자.</p><pre><code># ntpdate time.kriss.re.kr  # 실패하면 time2.kriss.re.kr 를 이용.
+# hwclock -w				# 하드웨어 시간 동기화
+</code></pre><h2 id=로케일-설정>로케일 설정</h2><h3 id=로케일-활성화>로케일 활성화</h3><p>로케일을 시스템에서 사용하려면 활성화해야한다. <code>/etc/locale.gen</code> 파일에서 필요한 로케일의 주석을 해제한다. 여기서는 en_US.UTF-8 UTF-8과 ko_KR.UTF-8 UTF-8 사용한다. 그 후 다음 명령어로 갱신한다.</p><pre><code># locale-gen
+</code></pre><h3 id=시스템-로케일-설정>시스템 로케일 설정</h3><p><code>/etc/locale.conf</code> 작성한다.</p><pre><code># echo LANG=en_US.UTF-8 &gt; /etc/locale.conf
+</code></pre><h2 id=사용자-설정>사용자 설정</h2><h3 id=root-패스워드-수정>root 패스워드 수정</h3><p>root 계정을 패스워드 없이 사용하는 것은 보안상 위험하다. 따라서 root 계정의 패스워드를 변경하자:</p><pre><code># passwd
+</code></pre><h3 id=사용자-계정-추가>사용자 계정 추가</h3><p>사용자 계정을 추가한다:</p><pre><code># useradd -m -g users -G wheel &lt;사용자_이름&gt;
+# passwd &lt;사용자_이름&gt;
+</code></pre><blockquote><p>-m: home폴더 만들기
+-g: group
+-G secondary group
+wheel은 관리자 그룹이다. <code>sudo</code>를 사용하기 위해 주가한다. <a href=https://wiki.archlinux.org/index.php/Users_and_groups#Group_list>ArchWiki 그룹 리스트</a> 참고</p></blockquote><h3 id=sudo-설정>sudo 설정</h3><p>이제 <code>/etc/sudoers</code>를 수정해 <code>wheel</code>그룹이 <code>sudo</code>를 사용할 수 있게 설정한다. 그런데 직접 수정하기보다 <code>visudo</code>를 이용해 수정하기를 권장한다.</p><pre><code># visudo
+</code></pre><pre><code># %wheel ALL=	//주석을 해제해준다:
+%wheel ALL=
+</code></pre><h2 id=네트워크-설정>네트워크 설정</h2><h3 id=호스트-이름-및-hosts설정>호스트 이름 및 hosts설정</h3><p>컴퓨터의 이름을 설정해준다. 기호에 맞게 바꿔라.</p><pre><code># echo &quot;helloarch&quot; &gt; /etc/hostname
+</code></pre><p><code>/etc/hosts</code> 파일을 다음과 같이 수정한다.</p><pre><code>127.0.0.1 localhost
+::1 localhost
+127.0.1.1 helloarch.localdomain helloarch
+</code></pre><h3 id=네트워크-설정-1>네트워크 설정</h3><p><a href=https://wiki.archlinux.org/index.php/NetworkManager>NetworkManager</a>를 활성화한다.</p><pre><code># systemctl enable NetworkManager.service
+</code></pre><h2 id=부트로더-설치>부트로더 설치</h2><p><code>grub</code>을 사용한다. UEFI 부팅시 <code>efibootmgr</code>도 설치해야한다.</p><pre><code># grub-install /dev/sda
+# grub-mkconfig -o /boot/grub/grub.cfg
+</code></pre><h3 id=windows-dual-booting>Windows dual booting</h3><p><code>grub-mkconfig</code>를 하기 전에 <code>os-prober</code>를 설치하면 windows도 capture한다.</p><pre><code># pacman -S os-prober
+# grub-mkconfig -o /boot/grub/grub.cfg
+</code></pre><p>윈도우는 localtime, linux는 UTC를 사용하기 때문에 둘 중 하나를 바꿔줘야 한다. 여기서는 linux가 localtime을 사용하도록 바꾼다.</p><pre><code># timedatectl set-local-rtc 1 --adjust-system-clock
+</code></pre><h2 id=재부팅>재부팅</h2><p>만약 위에서 networkmanager나 dhcpcd를 설정하지 않았으면 재부팅 했을 때 네트워크가 작동하지 않는다.</p><pre><code># exit # chroot 나오기
+# umount -R /mnt
+# reboot
+</code></pre><h1 id=설치-후에-할-일들>설치 후에 할 일들</h1><h2 id=microcode>microcode</h2><p><a href=https://wiki.archlinux.org/index.php/Microcode>Arch Wiki-Microcode</a></p><ul><li><code>inter-ucode</code> (pacman)</li></ul><pre><code># grub-mkconfig -o /boot/grub/grub.cfg
+</code></pre><h2 id=yay-설치>yay 설치</h2><p>yay는 AUR을 사용하기 편하게 해주는 wrapper이다.</p><pre><code># git clone https://aur.archlinux.org/yay.git
+# cd yay
+# makepkg -si
+</code></pre><h3 id=간단한-사용법>간단한 사용법</h3><ul><li>package 동기화 :<code>yay</code></li><li>검색: <code>yay -Ss &lt;package name></code></li><li>설치: <code>yay -S &lt;package name></code></li></ul><h2 id=앞으로-설치할-패키지들>앞으로 설치할 패키지들</h2><p>한꺼번에 설치하기 위해 적어놓는다. 알아서 취사선택</p><pre><code># pacman -S xf-86-video-intel xorg-server xorg-apps compton lightdm lightdm-gtk-greeter uim intel-ucode xautomation neovim rxvt-unicode ranger xcape feh zsh als-utils pulseaudio pavucontrol qbittorent vlc cups unclutter
+</code></pre><ul><li>xf86-video-intel: intel graphics driver</li><li>lightdm: display manager</li><li>compton: compositer</li><li>uim: 한글 입력기</li><li>intel-ucode: microcode</li><li>xautomation: xte를 사용하기 위해. xte는 fake input generator</li><li>neovim: improved vim</li><li>rxvt-unicode: terminal emulator</li><li>ranger: terminal based file explorer</li><li>xcape</li><li>feh: image viewer & background setter</li><li>zsh: shell</li><li>pulseaudio: audio server</li><li>pavucontrol: pulseaudio front end</li><li>qbittorent</li><li>vlc</li><li>cups: printer server</li><li>unclutter: 마우스 사용 안할 때 마우스 포인터 숨기기</li></ul><pre><code>$ yay -S i3-gaps rofi polybar siji ttf-nanum xbindkeys brave xidlehook visual-studio-code-bin
+</code></pre><ul><li>i3-gaps: window manager</li><li>rofi: app launcher</li><li>polybar: status bar</li><li>sifi: icon font for polybar</li><li>ttf-nanum: 한글 폰트</li><li>xbindkeys</li><li>brave: internet browser</li><li>xidlehook: for auto suspend</li><li>visual-studio-code-bin: VS Code</li></ul><h2 id=그래픽-환경-설치>그래픽 환경 설치</h2><h3 id=graphic-driver>Graphic Driver</h3><p>그래픽 카드 종류를 확인한다:</p><pre><code>$ lspci | grep -e VGA -e 3D
+</code></pre><p>인텔의 경우 <code>xf86-video-intel</code>을 설치한다. <a href=https://wiki.archlinux.org/index.php/Xorg#Driver_installation>ArchWiki 그래픽 드라이버</a> 참고.</p><h3 id=x11-server-설치>X11 Server 설치</h3><pre><code># pacman -S xorg-server xorg-apps
+</code></pre><p>이제 desktop environment/window manager를 선택해야한다. 여기서는 window manager로 i3-gaps, display manager로 lightdm을 사용하기로 한다.</p><h3 id=lightdm-설치>lightdm 설치</h3><p>lightdm은 greeter를 따로 설치해줘야한다.</p><ul><li><code>lightdm</code> (pacman)</li><li><code>lightdm-gtk-greeter</code> (pacman)</li></ul><p><code>/etc/lightdm/lightdm.conf</code>에서 greeter를 설정한다:</p><pre><code>[SeatDefaults]
+greeter-session=lightdm-gtk-greeter
+</code></pre><p>위의 <code>lightdm-gtk-greeter</code>를 알맞게 변경해준다. <code>/usr/share/xgreeters/*.desktop</code>에서 확인할 수 있다.</p><p>이제 lightdm을 활성화 시켜준다. enable을 start로 바꾸면 바로 실행할 수 있다.</p><pre><code># systemctl enable lightdm
+</code></pre><h3 id=한글화>한글화</h3><p>한글화를 위해 글꼴과 입력기를 설치한다.</p><ul><li><code>ttf-nanum</code> (AUR)</li><li><code>uim</code> (pacman)</li></ul><p><code>~/.xprofile</code>을 수정한다.</p><pre><code>export GTK_IM_MODULE='uim'
+export QT_IM_MODULE='uim'
+uim-xim &amp;
+export XMODIFIERS='@im=uim'
+</code></pre><h2 id=기타>기타</h2><h3 id=마우스-키-바인딩>마우스 키 바인딩</h3><ul><li><code>xbindkeys</code> (AUR)</li><li><code>xautomation</code> (pacman)</li></ul><h3 id=pip-설치>pip 설치</h3><pre><code>curl https://bootstrap.pypa.io/get-python -o get-pip.py
+sudo python get-pip.py
+</code></pre><h3 id=오디오-설정>오디오 설정</h3><h4 id=change-default-sink>Change default sink</h4><p><code>/etc/pulse/default.pa</code></p><pre><code>load-module module-stream-resotre restore_devide=false
+</code></pre><pre><code>$ pacmd list-sinks
+$ pacmd set-default-sink &lt;number or name&gt;
+</code></pre><h3 id=프린터>프린터</h3><p><code>cups</code> 설치 후</p><pre><code># systemctl start org.cups.cupsd.service
+</code></pre><h4 id=프린터-드라이브>프린터 드라이브</h4><p>yay -S brother-hll2360d</p><p>http://localhost:631/에서 add printer</p><p>참고
+<a href=https://whjeon.com/arch-install/>블로그</a></p><h2 id=설치할-것>설치할 것</h2><ul><li>dunst: notification</li><li>xclip: clipboard</li><li>flameshot: screenshot</li><li>thunar</li><li>zathura: pdf viewer</li><li>zathura-pdf-poppler: pdf viewer</li><li>okular</li></ul></article></div></div></body></html>

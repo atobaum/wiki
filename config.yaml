@@ -24,6 +24,10 @@ menu:
         - name: about   
           url: /about
 params:
-    DateFormat: "2006-01-01"
+    DateFormat: "2006-01-02"
     Social:
         - github: atobaum
+
+markup: 
+    highlight:
+        style: solarized-light

@@ -40,7 +40,7 @@ npm install --save-dev @babel/preset-env
 .babelrc 파일에서
 ```json
 {
-  presets: ["@babel/preset-env"]
+  "presets": ["@babel/preset-env"]
 }
 ```
 

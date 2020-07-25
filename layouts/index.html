@@ -1,4 +1,4 @@
-{{ define "main" }}
+{{ define "main" }} 
 
 {{ range .Site.Params.Social }}
 {{ with .github }}
@@ -6,14 +6,14 @@
 {{ end }}
 {{ end }}
 
- <h1>최근에 수정된 문서</h1>
- <ul>
- {{ range (where .Site.RegularPages.ByLastmod "Title" "!=" "").Reverse }}
-	<li>
-		<a href="{{ .Permalink }}">
-			{{ .Lastmod.Format .Site.Params.DateFormat }} - {{ .Title }}
-		</a>
-	</li>
- {{ end }}
- </ul>
+<h1>최근에 수정된 문서</h1>
+<ul>
+  {{ range (sort (where .Site.RegularPages.ByLastmod "Title" "!=" "") ".PublishDate" "asc").Reverse }}
+  <li>
+    <a href="{{ .Permalink }}">
+      {{ .PublishDate.Format .Site.Params.DateFormat }} - {{ .Title }}
+    </a>
+  </li>
+  {{ end }}
+</ul>
 {{ end }}

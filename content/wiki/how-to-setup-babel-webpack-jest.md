@@ -10,7 +10,7 @@ date: 2020-07-12T23:40+09:00
 lastmod: 2020-06-01T23:25+09:00
 ---
 
-# Setting up babel/webpack
+## Setting up babel/webpack
 
 ```bash
 npm install @babel/core @babel/cli @babel/preset-env --save-dev
@@ -233,7 +233,7 @@ module.exports = {
 
 - [누군가의 블로그](https://poiemaweb.com/es6-babel-webpack-2)
 
-# Jest를 사용해보자
+## Jest를 사용해보자
 
 Jest는 테스팅 라이브러리이다.
 

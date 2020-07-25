@@ -1,8 +1,8 @@
 ---
 title: "EC2 우분투에 도커 설치하기"
-summary: ''
+summary: " "
 layout: wiki
-parent: 
+parent:
 tags: ["Guide", "Docker", "EC2"]
 toc: true
 latex: false

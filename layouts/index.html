@@ -9,7 +9,7 @@
 <h1>최근에 수정된 문서</h1>
 <ul>
   {{ range (sort (where .Site.RegularPages.ByLastmod "Title" "!=" "") ".PublishDate" "asc").Reverse }}
-  <li>
+  <li class="list-item">
     <a href="{{ .Permalink }}">
       {{ .PublishDate.Format .Site.Params.DateFormat }} - {{ .Title }}
     </a>

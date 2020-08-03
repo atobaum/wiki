@@ -24,3 +24,10 @@ sudo curl -L https://github.com/docker/compose/releases/download/1.25.0\
 /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 ```
+
+덤으로 npm도 설치해보자
+```shell
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo npm install -g npm
+```

@@ -1,9 +1,11 @@
 ---
 title: "Bézier curve"
-summary: ""
+summary: "베지어 곡선에 대해 알아보자"
 layout: wiki
 parent: 
-tags: []
+tags: 
+  - Math
+  - CSS
 toc: true
 latex: true
 date: 2020-08-09T16:07:23+0900
@@ -47,7 +49,7 @@ $$
 n차 베지어 곡선은 n+1개의 점 $P_0, ..., P_n$으로 다음과 같이 정의된다:
 $$
 \begin{aligned}
-B_{P_0}(t) &= P_0,\ t\in[0,1] \\
+B_{P_0}(t) &= P_0,\ t\in[0,1] \\\\
 B_{P_0,P_1,...,P_n}(t) &= (1-t)B_{P_0,...,P_{n-1}}(t)+tB_{P_1,...,P_n}(t),\ t\in[0,1] \qquad if \quad n > 0
 \end{aligned}
 $$
@@ -63,7 +65,8 @@ $$
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/B%C3%A9zier_2_big.gif/240px-B%C3%A9zier_2_big.gif)
 $$
 \begin{aligned}
-B_{P_0, P_1, P_2}(t) &= (1-t)[(1-t)P_0+tP_1] + t[(1-t)P_1+tP_2] \\ &= (1-t)^2 P_0 + 2t(1-t) P_1 + t^2P_2
+B_{P_0, P_1, P_2}(t) &= (1-t)[(1-t)P_0+tP_1] + t[(1-t)P_1+tP_2] \\\\
+&= (1-t)^2 P_0 + 2t(1-t) P_1 + t^2P_2
 \end{aligned}
 $$
 
@@ -79,7 +82,8 @@ $$
 
 $$
 \begin{aligned}
-B_{P_0,..., P_3}(t) &= (1-t)[(1-t)^2 P_0 + 2t(1-t) P_1 + t^2P_2] + t[(1-t)^2 P_1 + 2t(1-t) P_2 + t^2P_3] \\ &=(1-t)^3P_0+3(1-t)^2tP_1+3(1-t)t^2P_2+t^3P_3
+B_{P_0,..., P_3}(t) &= (1-t)[(1-t)^2 P_0 + 2t(1-t) P_1 + t^2P_2] + t[(1-t)^2 P_1 + 2t(1-t) P_2 + t^2P_3] \\\\
+&=(1-t)^3P_0+3(1-t)^2tP_1+3(1-t)t^2P_2+t^3P_3
 \end{aligned}
 $$
 
@@ -90,7 +94,7 @@ $$
 $$
 B_{P_0,...,P_n}(t) = \sum^n_{i=0} \binom{n}{i}(1-t)^{n-i}t^iP_i
 $$
-이다. 증명은 귀납법을 사용하면 되겠지만 여백이 너무 좁다. 심심하면 [참고](/wiki/bezier-curve-proof/)
+이다. $\binom{n}{i}$는 binomial coefficient 또는 combination 또는 $_nC_i$이다. 증명은 귀납법을 사용하면 되겠지만 여백이 너무 좁다. 심심하면 [참고](/wiki/bezier-curve-proof/)
 
 
 
@@ -105,6 +109,8 @@ transition-timing-function: cubic-bezier(.25,.1,.25,1);
 파라미터들은 무엇일까? 타이밍 함수를 x축이 시간이고 y축이 위치인 함수로 이해할 수 있다. 어차피 여기서 저기까지 가는 방법을 기술하는 것이기 때문에 $P_0=(0,0), P_3=(1,1)$로 고정할 수 있다. 이제 필요한 파라미터는 $P_1$과 $P_2$의 x, y 좌표. 순서대로 $P_0$의 x, y좌표, $P_1$의 x, y좌표이다.
 
 사실 `ease, linear, ease-in` 같은 것들도 다 특정한 2차 베지어 곡선의 별명이다.
+
+반면 css에서 cubic-bezier()의 한계는 무엇일까? 3차 베지어 곡선은 3차 함수(wrt. t)이기 때문에 "왔다갔다"할 수 있지만 "왔다갔다왔다갔다" 이상은 할 수 없다.
 
 [cubic-bezier](https://cubic-bezier.com/) 사이트에 가서 parameter를 바꿔보면서 곡선을 구경해보자.
 

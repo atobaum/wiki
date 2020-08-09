@@ -34,3 +34,7 @@ markup:
     goldmark:
         renderer:
             unsafe: true
+    tableOfContents:
+        endLevel: 3
+        startLevel: 1
+        ordered: false

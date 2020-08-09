@@ -94,18 +94,22 @@ h2 {
 
 .content-article {
   margin-top: 3rem;
+  margin-bottom: 10rem;
 }
 
 .content-article h1 {
   font-size: 2.5rem;
-  margin-bottom: 1rem;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
   border-bottom: 1.5px solid gray;
 }
 .content-article h2 {
+  margin-top: 3rem;
   margin-bottom: 1rem;
   border-bottom: 1px solid gray;
 }
 .content-article h3 {
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
 .content-article p {
@@ -142,8 +146,19 @@ h2 {
   line-height: 1.6;
 }
 
-img {
-  width: 100%;
+.content-article blockquote{
+	margin: 0.5rem;
+	padding: 1rem;
+	border-left: 1rem solid #f0b49d;
+}
+
+mjx-container{
+  overflow: auto;
+}
+
+.content-article img {
+	margin: 1rem auto;
+	width: 80%;
 }
 
 p {

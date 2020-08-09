@@ -6,8 +6,8 @@ parent: "Linux"
 tags: ["Arch", "pacman", "Guide"]
 toc: true
 latex: false
-date: 2020-06-01T23:14+09:00
-lastmod: 2020-06-01T23:25+09:00
+date: 2020-06-01T23:14:00+09:00
+lastmod: 2020-06-01T23:25:00+09:00
 ---
 ## 패키지 설치
 * pacman -S <pkg_name>

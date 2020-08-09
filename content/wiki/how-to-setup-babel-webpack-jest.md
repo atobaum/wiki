@@ -6,8 +6,8 @@ parent: ""
 tags: ["webpack", "bable", "jest"]
 toc: true
 latex: false
-date: 2020-07-12T23:40+09:00
-lastmod: 2020-06-01T23:25+09:00
+date: 2020-07-12T23:40:00+09:00
+lastmod: 2020-06-01T23:25:00+09:00
 ---
 
 ## Setting up babel/webpack

@@ -4,4 +4,6 @@
 [[객체지향의-사실과-오해]]
 [[HTTP-the-definite-guide]]
 [[book-recomendation]]
+[[bezier-curve]]
+[[bezier-curve-proof]]
 

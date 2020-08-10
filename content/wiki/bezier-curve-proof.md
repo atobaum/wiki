@@ -37,14 +37,14 @@ $$
 다음 두 식은 동치이다.
 $$
 \begin{aligned}
-B_{P_0}(t) &= P_0,\ t\in[0,1] \\\\
-B_{P_0,P_1,...,P_n}(t) &= (1-t)B_{P_0,...,P_{n-1}}(t)+tB_{P_1,...,P_n}(t),\ t\in[0,1] \qquad if \quad n > 0 \qquad -(1)
+B_{P_0}^{(0)}(t) &= P_0,\ t\in[0,1] \\\\
+B_{P_0,P_1,...,P_n}^{(n)}(t) &= (1-t)B_{P_0,...,P_{n-1}}(t)+tB_{P_1,...,P_n}(t),\ t\in[0,1] \qquad if \quad n > 0 \qquad -(1)
 \end{aligned}
 $$
 ***
 
 $$
-B_{P_0,...,P_n}(t) = \sum^n_{i=0} \binom{n}{i}(1-t)^{n-i}t^iP_i \qquad -(2)
+B_{P_0,...,P_n}^{(n)}(t) = \sum^n_{i=0} \binom{n}{i}(1-t)^{n-i}t^iP_i \qquad -(2)
 $$
 
 ## Proof
@@ -58,7 +58,7 @@ ii) When n > 0:
 
 $$
 \begin{aligned}
-B_{0...n}(t) &= (1-t)B_{0...(n-1)}+tB_{1...n} \\\\
+B_{0...n}^{(n)}(t) &= (1-t)B_{0...(n-1)}+tB_{1...n} \\\\
 &= [(1-t)\sum^{n-1}_{i=0} \binom{n-1}{i} (1-t)^{n-1-i}t^iP_i]+[t\sum^{n-1}_{i=0} \binom{n-1}{i} (1-t)^{n-1-i}t^iP_{i+1}] \\\\
 &= \sum^{n-1}_{i=0} \binom{n-1}{i} (1-t)^{n-i}t^iP_i+\sum^{n}_{i=1} \binom{n-1}{i-1} (1-t)^{n-i}t^{i}P_{i} \\\\
 &= \binom{n-1}{0}(1-t)^nP_0+\sum^{n-1}_{i=1} \left[ \binom{n-1}{i}+\binom{n-1}{i-1} \right] (1-t)^{n-i}t^iP_i+\binom{n-1}{n-1}t^nP_n \\\\

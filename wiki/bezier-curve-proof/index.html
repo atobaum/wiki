@@ -7,12 +7,12 @@ $$</p><p>$\binom{n}{i}$는 binomial coefficient이다.</p><h2 id=proof>Proof</h2
 $$</p><h1 id=explicit-form-of-bézier-curve>Explicit form of Bézier curve</h1><p>다음 두 식은 동치이다.
 $$
 \begin{aligned}
-B_{P_0}(t) &= P_0,\ t\in[0,1] \\<br>B_{P_0,P_1,&mldr;,P_n}(t) &= (1-t)B_{P_0,&mldr;,P_{n-1}}(t)+tB_{P_1,&mldr;,P_n}(t),\ t\in[0,1] \qquad if \quad n > 0 \qquad -(1)
+B_{P_0}^{(0)}(t) &= P_0,\ t\in[0,1] \\<br>B_{P_0,P_1,&mldr;,P_n}^{(n)}(t) &= (1-t)B_{P_0,&mldr;,P_{n-1}}(t)+tB_{P_1,&mldr;,P_n}(t),\ t\in[0,1] \qquad if \quad n > 0 \qquad -(1)
 \end{aligned}
 $$</p><hr><p>$$
-B_{P_0,&mldr;,P_n}(t) = \sum^n_{i=0} \binom{n}{i}(1-t)^{n-i}t^iP_i \qquad -(2)
+B_{P_0,&mldr;,P_n}^{(n)}(t) = \sum^n_{i=0} \binom{n}{i}(1-t)^{n-i}t^iP_i \qquad -(2)
 $$</p><h2 id=proof-1>Proof</h2><p>간단하게 $B_{P_0,&mldr;,P_n}(t)$을 $B_{0&mldr;n}(t)$이라고 쓰자.</p><p>By induction.</p><p>i) When n = 0: trivial</p><p>ii) When n > 0:</p><p>$$
 \begin{aligned}
-B_{0&mldr;n}(t) &= (1-t)B_{0&mldr;(n-1)}+tB_{1&mldr;n} \\<br>&= [(1-t)\sum^{n-1}_{i=0} \binom{n-1}{i} (1-t)^{n-1-i}t^iP_i]+[t\sum^{n-1}_{i=0} \binom{n-1}{i} (1-t)^{n-1-i}t^iP_{i+1}] \\<br>&= \sum^{n-1}_{i=0} \binom{n-1}{i} (1-t)^{n-i}t^iP_i+\sum^{n}_{i=1} \binom{n-1}{i-1} (1-t)^{n-i}t^{i}P_{i} \\<br>&= \binom{n-1}{0}(1-t)^nP_0+\sum^{n-1}_{i=1} \left[ \binom{n-1}{i}+\binom{n-1}{i-1} \right] (1-t)^{n-i}t^iP_i+\binom{n-1}{n-1}t^nP_n \\<br>&= (1-t)^nP_0+\sum^{n-1}_{i=1}\binom{n}{i}(1-t)^{n-i}t^iP_i+t^nP_n \qquad by\ above\ lemma\\<br>&= \sum^{n}_{i=0}\binom{n}{i}(1-t)^{n-i}t^iP_i \qquad \square
+B_{0&mldr;n}^{(n)}(t) &= (1-t)B_{0&mldr;(n-1)}+tB_{1&mldr;n} \\<br>&= [(1-t)\sum^{n-1}_{i=0} \binom{n-1}{i} (1-t)^{n-1-i}t^iP_i]+[t\sum^{n-1}_{i=0} \binom{n-1}{i} (1-t)^{n-1-i}t^iP_{i+1}] \\<br>&= \sum^{n-1}_{i=0} \binom{n-1}{i} (1-t)^{n-i}t^iP_i+\sum^{n}_{i=1} \binom{n-1}{i-1} (1-t)^{n-i}t^{i}P_{i} \\<br>&= \binom{n-1}{0}(1-t)^nP_0+\sum^{n-1}_{i=1} \left[ \binom{n-1}{i}+\binom{n-1}{i-1} \right] (1-t)^{n-i}t^iP_i+\binom{n-1}{n-1}t^nP_n \\<br>&= (1-t)^nP_0+\sum^{n-1}_{i=1}\binom{n}{i}(1-t)^{n-i}t^iP_i+t^nP_n \qquad by\ above\ lemma\\<br>&= \sum^{n}_{i=0}\binom{n}{i}(1-t)^{n-i}t^iP_i \qquad \square
 \end{aligned}
 $$</p></article></div></div></body></html>

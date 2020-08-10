@@ -4,20 +4,20 @@ f(t) = P_0+t(P_1-P_0),\ t \in [0, 1]
 $$
 이다. $f(0)=P_0$이고 $f(1)=P_1$인 것을 알 수 있다. 그리고 $t$가 0에서 1로 가면서 $f(t)$는 $P_0$에서 $P_1$로 이동한다.</p><p><img src=https://upload.wikimedia.org/wikipedia/commons/0/00/B%C3%A9zier_1_big.gif alt="linear curve"></p><p>위의 식을 다르게 써보자:
 $$
-B_{P_0, P_1}(t) = (1-t)P_0+tP_1,\ t \in [0, 1] \quad - (1)
+B_{P_0, P_1}^{(1)}(t) = (1-t)P_0+tP_1,\ t \in [0, 1] \quad - (1)
 $$
-그런데 한 점에 가만히 있는 것도 하나의 곡선으로 볼 수 있다:
+이때 위쪽 (n)은 n차 베지어 곡선이라는 말. 그런데 한 점에 가만히 있는 것도 하나의 곡선으로 볼 수 있다:
 $$
-B_{P_0} = P_0,\ t\in[0,1]
+B_{P_0}^{(0)} = P_0,\ t\in[0,1]
 $$
 이제 (1) 을 다시 써보자:
 $$
-B_{P_0, P_1}(t) = (1-t)B_{P_0}(t)+tB_{P_1}(t),\ t \in [0, 1] \quad - (2)
+B_{P_0, P_1}(t)^{(1)} = (1-t)B_{P_0}(t)+tB_{P_1}(t),\ t \in [0, 1] \quad - (2)
 $$
 재귀적 정의의 낌새가 보인다.</p><h2 id=정의>정의</h2><p>n차 베지어 곡선은 n+1개의 점 $P_0, &mldr;, P_n$으로 다음과 같이 정의된다:
 $$
 \begin{aligned}
-B_{P_0}(t) &= P_0,\ t\in[0,1] \\<br>B_{P_0,P_1,&mldr;,P_n}(t) &= (1-t)B_{P_0,&mldr;,P_{n-1}}(t)+tB_{P_1,&mldr;,P_n}(t),\ t\in[0,1] \qquad if \quad n > 0
+B_{P_0}^{(0)}(t) &= P_0,\ t\in[0,1] \\<br>B_{P_0,P_1,&mldr;,P_n}^{(n)}(t) &= (1-t)B_{P_0,&mldr;,P_{n-1}}(t)+tB_{P_1,&mldr;,P_n}(t),\ t\in[0,1] \qquad if \quad n > 0
 \end{aligned}
 $$
 (2)번 식에서 1차 베지어곡선이 0차 베지어 곡선(사실은 점이지만) 두개를 잘 이은 것처럼 n차 베지어 곡선은 n-1차 베지어 곡선 두개의 점을 잘 이은 곡선이다(&mldr;)</p><h2 id=2차-베지어-곡선>2차 베지어 곡선</h2><p>그럼 2차 곡선은 어떻게 쓰여질까? 위의 식에 대입해보자
@@ -26,15 +26,15 @@ B_{P_0, P_1, P_2}
 $$</p><p><img src=https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/B%C3%A9zier_2_big.gif/240px-B%C3%A9zier_2_big.gif alt>
 $$
 \begin{aligned}
-B_{P_0, P_1, P_2}(t) &= (1-t)[(1-t)P_0+tP_1] + t[(1-t)P_1+tP_2] \\<br>&= (1-t)^2 P_0 + 2t(1-t) P_1 + t^2P_2
+B_{P_0, P_1, P_2}^{(2)}(t) &= (1-t)[(1-t)P_0+tP_1] + t[(1-t)P_1+tP_2] \\<br>&= (1-t)^2 P_0 + 2t(1-t) P_1 + t^2P_2
 \end{aligned}
 $$</p><h2 id=3차-베지어-곡선>3차 베지어 곡선</h2><p>그럼 3차 곡선은?</p><p><img src=https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/B%C3%A9zier_3_big.gif/240px-B%C3%A9zier_3_big.gif alt="Animation of a cubic Bézier curve, t in [0,1]"></p><p>$$
 \begin{aligned}
-B_{P_0,&mldr;, P_3}(t) &= (1-t)[(1-t)^2 P_0 + 2t(1-t) P_1 + t^2P_2] + t[(1-t)^2 P_1 + 2t(1-t) P_2 + t^2P_3] \\<br>&=(1-t)^3P_0+3(1-t)^2tP_1+3(1-t)t^2P_2+t^3P_3
+B_{P_0,&mldr;, P_3}^{(3)}(t) &= (1-t)[(1-t)^2 P_0 + 2t(1-t) P_1 + t^2P_2] + t[(1-t)^2 P_1 + 2t(1-t) P_2 + t^2P_3] \\<br>&=(1-t)^3P_0+3(1-t)^2tP_1+3(1-t)t^2P_2+t^3P_3
 \end{aligned}
 $$</p><h2 id=explicit-form>Explicit form</h2><p>그럼 4차, 5차 곡선은? 아&mldr; 너무 귀찮다. 위의 식을 보다보면 계수가 어디선가 많이 본 거같다. 사실
 $$
-B_{P_0,&mldr;,P_n}(t) = \sum^n_{i=0} \binom{n}{i}(1-t)^{n-i}t^iP_i
+B_{P_0,&mldr;,P_n}^{(n)}(t) = \sum^n_{i=0} \binom{n}{i}(1-t)^{n-i}t^iP_i
 $$
 이다. $\binom{n}{i}$는 binomial coefficient 또는 combination 또는 $_nC_i$이다. 증명은 귀납법을 사용하면 되겠지만 여백이 너무 좁다. 심심하면 <a href=/wiki/bezier-curve-proof/>참고</a></p><h2 id=어디에-쓸까>어디에 쓸까?</h2><p>Bézier씨는 자동차를 설계하는 데 사용했다고 한다. 우리는 CSS에서 transition을 설정할 때 timing function으로 사용할 수 있다:</p><div class=highlight><pre style=color:#586e75;background-color:#eee8d5;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-css data-lang=css><span style=color:#268bd2;font-weight:700>transition-timing-function</span>: <span style=color:#268bd2;font-weight:700>cubic-bezier</span>(.<span style=color:#cb4b16>25</span>,.<span style=color:#cb4b16>1</span>,.<span style=color:#cb4b16>25</span>,<span style=color:#268bd2;font-weight:700>1</span>);
 </code></pre></div><p>파라미터들은 무엇일까? 타이밍 함수를 x축이 시간이고 y축이 위치인 함수로 이해할 수 있다. 어차피 여기서 저기까지 가는 방법을 기술하는 것이기 때문에 $P_0=(0,0), P_3=(1,1)$로 고정할 수 있다. 이제 필요한 파라미터는 $P_1$과 $P_2$의 x, y 좌표. 순서대로 $P_0$의 x, y좌표, $P_1$의 x, y좌표이다.</p><p>사실 <code>ease, linear, ease-in</code> 같은 것들도 다 특정한 2차 베지어 곡선의 별명이다.</p><p>반면 css에서 cubic-bezier()의 한계는 무엇일까? 3차 베지어 곡선은 3차 함수(wrt. t)이기 때문에 &ldquo;왔다갔다"할 수 있지만 &ldquo;왔다갔다왔다갔다&rdquo; 이상은 할 수 없다.</p><p><a href=https://cubic-bezier.com/>cubic-bezier</a> 사이트에 가서 parameter를 바꿔보면서 곡선을 구경해보자.</p><h2 id=ps-bézier-surfaces>P.S. Bézier surfaces</h2><p>그럼 곡선을 곡면으로 확장시킬 수도 있겠지? <a href=https://en.wikipedia.org/wiki/B%C3%A9zier_surface>Bézier surfaces</a> 참고</p><h2 id=reference>Reference</h2><ul><li><a href=https://en.wikipedia.org/wiki/B%C3%A9zier_curve>Wikipedia - Bézier curve</a></li><li><a href=https://codepen.io/ChoEun/pen/MwRRrB:>https://codepen.io/ChoEun/pen/MwRRrB:</a> 여러 타이밍 함수 한눈에 보기</li></ul></article></div></div></body></html>

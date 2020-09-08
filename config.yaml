@@ -27,6 +27,7 @@ params:
     DateFormat: "2006-01-02"
     Social:
         - github: atobaum
+    googleanalytics_id: "UA-177439615-1"
 
 markup: 
     highlight:

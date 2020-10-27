@@ -66,3 +66,7 @@ $ gpg --armor --export ABCD1235
 ## Referende
 - [기계인간 위키 - GnuPG 사용법](https://johngrib.github.io/wiki/gpg/)
 - [Github docs](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/generating-a-new-gpg-key)
+
+## 더 보기
+
+- [RSA](/wiki/rsa)

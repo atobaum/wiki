@@ -1,0 +1,130 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width"><title>Atobaum Wiki</title><link rel=stylesheet href=https://atobaum.github.io/css/index.css><link rel=stylesheet href=https://atobaum.github.io/css/reset.css><link rel=apple-touch-icon sizes=180x180 href=https://atobaum.github.io/fav/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=https://atobaum.github.io/fav/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=https://atobaum.github.io/fav/favicon-16x16.png><link rel=manifest href=https://atobaum.github.io/fav/site.webmanifest><script async src="https://www.googletagmanager.com/gtag/js?id=UA-177439615-1"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-177439615-1');</script></head><body><div id=wrap><header id=gheader><div class="flex flex-jsb"><div id=logo><a href=https://atobaum.github.io>Atobaum Wiki</a></div><nav class=right0><ul id=gnb><li><a href=/about>about</a></li><li><a href=/>all</a></li><li><a href=/random>random</a></li><li><a href=/tags>tags</a></li></ul></nav></div><div id=search class=flex-end>searchbar</div></header><div id=main><h1 class=content-title>BOJ 2188 - 축사배정</h1><h3 class=content-summary>백준 2188번 - 축사배정</h3><div><div><ul class=tag-list><li class=tag><a href=https://atobaum.github.io/tags/boj>#BOJ</a></li><li class=tag><a href=https://atobaum.github.io/tags/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98>#알고리즘</a></li><li class=tag><a href=https://atobaum.github.io/tags/%EC%B5%9C%EB%8C%80%EC%9C%A0%EB%9F%89>#최대유량</a></li></ul></div><div class=content-meta><ul><li>작성: 2020-12-03<li></li>수정: 2020-12-03</li></ul>2 분 걸려요.</div><div><aside id=toc-wrapper><nav id=TableOfContents><ul><li><a href=#boj-2188---축사배정>BOJ 2188 - 축사배정</a><ul><li><a href=#아이디어>아이디어</a></li><li><a href=#소스>소스</a></li></ul></li></ul></nav></aside><article class=content-article><h1 id=boj-2188---축사배정>BOJ 2188 - 축사배정</h1><p><a href=https://www.acmicpc.net/problem/2188>문제</a></p><h2 id=아이디어>아이디어</h2><p>최대 유량 알고리즘을 사용한다.</p><p>가상의 source, sink과 각 소와 축사를 하나의 노드로 본다.
+source에서 각 소로 1이 흐를 수 있고 각 소들이 선호하는 축사로 1씩 흐를 수 있게 만든다.
+그리고 모든 축사에서 sink로 1씩 흐를 수 있게 만든다.
+모든 소는 자기가 원하는 축사로만 흐를 수 있고 sink로 흐를 수 있는 노드는 축사밖에 없으므로 source -> sink로 흐를 수 있는 최대 유량을 구하면 답을 구할 수 있다.</p><h2 id=소스>소스</h2><div class=highlight><pre style=color:#586e75;background-color:#eee8d5;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#93a1a1;font-style:italic>#include</span> <span style=color:#93a1a1;font-style:italic>&lt;algorithm&gt; //sort</span><span style=color:#93a1a1;font-style:italic>
+</span><span style=color:#93a1a1;font-style:italic>#include</span> <span style=color:#93a1a1;font-style:italic>&lt;climits&gt;</span><span style=color:#93a1a1;font-style:italic>
+</span><span style=color:#93a1a1;font-style:italic>#include</span> <span style=color:#93a1a1;font-style:italic>&lt;cstring&gt;    //memset</span><span style=color:#93a1a1;font-style:italic>
+</span><span style=color:#93a1a1;font-style:italic>#include</span> <span style=color:#93a1a1;font-style:italic>&lt;functional&gt; //greater</span><span style=color:#93a1a1;font-style:italic>
+</span><span style=color:#93a1a1;font-style:italic>#include</span> <span style=color:#93a1a1;font-style:italic>&lt;iostream&gt;</span><span style=color:#93a1a1;font-style:italic>
+</span><span style=color:#93a1a1;font-style:italic>#include</span> <span style=color:#93a1a1;font-style:italic>&lt;queue&gt;</span><span style=color:#93a1a1;font-style:italic>
+</span><span style=color:#93a1a1;font-style:italic>#include</span> <span style=color:#93a1a1;font-style:italic>&lt;utility&gt; //pair</span><span style=color:#93a1a1;font-style:italic>
+</span><span style=color:#93a1a1;font-style:italic>#include</span> <span style=color:#93a1a1;font-style:italic>&lt;vector&gt;</span><span style=color:#93a1a1;font-style:italic>
+</span><span style=color:#93a1a1;font-style:italic></span><span style=color:#859900>using</span> <span style=color:#859900>namespace</span> <span style=color:#268bd2>std</span>;
+
+<span style=color:#859900>typedef</span> <span style=color:#859900;font-weight:700>long</span> <span style=color:#859900;font-weight:700>long</span> <span style=color:#268bd2>ll</span>;
+<span style=color:#859900>typedef</span> <span style=color:#268bd2>pair</span>&lt;<span style=color:#859900;font-weight:700>int</span>, <span style=color:#859900;font-weight:700>int</span>&gt; <span style=color:#268bd2>pii</span>;
+
+<span style=color:#93a1a1;font-style:italic>#define reap(i, a, b) for (int i = a; i &lt; b; i++)
+</span><span style=color:#93a1a1;font-style:italic>#define in1(a) cin &gt;&gt; a;
+</span><span style=color:#93a1a1;font-style:italic>#define in2(a, b) cin &gt;&gt; a &gt;&gt; b;
+</span><span style=color:#93a1a1;font-style:italic>#define in3(a, b, c) cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+</span><span style=color:#93a1a1;font-style:italic>#define in4(a, b, c, d) cin &gt;&gt; a &gt;&gt; b &gt;&gt; c &gt;&gt; d;
+</span><span style=color:#93a1a1;font-style:italic>#define out1(a) cout &lt;&lt; a &lt;&lt; endl;
+</span><span style=color:#93a1a1;font-style:italic>#define out2(a, b) cout &lt;&lt; a &lt;&lt; &#34; &#34; &lt;&lt; b &lt;&lt; endl;
+</span><span style=color:#93a1a1;font-style:italic>#define out3(a, b, c) cout &lt;&lt; a &lt;&lt; &#34; &#34; &lt;&lt; b &lt;&lt; &#34; &#34; &lt;&lt; c &lt;&lt; endl;
+</span><span style=color:#93a1a1;font-style:italic>#define out4(a, b, c, d) cout &lt;&lt; a &lt;&lt; &#34; &#34; &lt;&lt; b &lt;&lt; &#34; &#34; &lt;&lt; c &lt;&lt; &#34; &#34; &lt;&lt; d &lt;&lt; endl;
+</span><span style=color:#93a1a1;font-style:italic></span>
+<span style=color:#93a1a1;font-style:italic>// 1. 소, 축사 하나 당 노드 한개 + 입력, 출구 노드 =&gt; 총 N+M+2개. N, M &lt;= 200
+</span><span style=color:#93a1a1;font-style:italic>// 2. 입력노드는 각 소 노드로 1마리씩 흐른다.
+</span><span style=color:#93a1a1;font-style:italic>// 3. 소 노드는 그 소가 선호하는 축사 노드로 1의 파이프를 갖는다.
+</span><span style=color:#93a1a1;font-style:italic>// 4. 모든 축사는 출구 노드로 1의 용량을 가진다.
+</span><span style=color:#93a1a1;font-style:italic>// 이제 최대 유량 구해서 흐르는 소를 구하면 답.
+</span><span style=color:#93a1a1;font-style:italic></span>
+<span style=color:#93a1a1;font-style:italic>// 0: source, 1: sink, 100~299: cow, 300~499: 축사
+</span><span style=color:#93a1a1;font-style:italic></span><span style=color:#93a1a1;font-style:italic>#define MAX_MAP_SIZE 100 + 200 + 200
+</span><span style=color:#93a1a1;font-style:italic></span>
+<span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>flow</span>[<span style=color:#268bd2>MAX_MAP_SIZE</span>][<span style=color:#268bd2>MAX_MAP_SIZE</span>], <span style=color:#268bd2>capacity</span>[<span style=color:#268bd2>MAX_MAP_SIZE</span>][<span style=color:#268bd2>MAX_MAP_SIZE</span>];
+<span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>N</span>, <span style=color:#268bd2>M</span>;
+
+<span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>cow_offset</span> = <span style=color:#2aa198;font-weight:700>2</span>, <span style=color:#268bd2>house_offset</span>;
+<span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>map_size</span>;
+
+<span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>solve</span>();
+
+<span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>main</span>() {
+  <span style=color:#268bd2>ios</span>::<span style=color:#268bd2>sync_with_stdio</span>(<span style=color:#cb4b16>false</span>);
+  <span style=color:#268bd2>cin</span>.<span style=color:#268bd2>tie</span>(<span style=color:#cb4b16>NULL</span>);
+
+  <span style=color:#268bd2>memset</span>(<span style=color:#268bd2>flow</span>, <span style=color:#2aa198;font-weight:700>0</span>, <span style=color:#859900>sizeof</span>(<span style=color:#268bd2>flow</span>));
+  <span style=color:#268bd2>memset</span>(<span style=color:#268bd2>capacity</span>, <span style=color:#2aa198;font-weight:700>0</span>, <span style=color:#859900>sizeof</span>(<span style=color:#268bd2>capacity</span>));
+
+  <span style=color:#268bd2>in2</span>(<span style=color:#268bd2>N</span>, <span style=color:#268bd2>M</span>);
+  <span style=color:#268bd2>house_offset</span> = <span style=color:#2aa198;font-weight:700>2</span> + <span style=color:#268bd2>N</span>;
+  <span style=color:#268bd2>map_size</span> = <span style=color:#2aa198;font-weight:700>2</span> + <span style=color:#268bd2>N</span> + <span style=color:#268bd2>M</span>;
+  <span style=color:#268bd2>reap</span>(<span style=color:#268bd2>i</span>, <span style=color:#2aa198;font-weight:700>0</span>, <span style=color:#268bd2>N</span>) {
+    <span style=color:#93a1a1;font-style:italic>// source to cow
+</span><span style=color:#93a1a1;font-style:italic></span>    <span style=color:#268bd2>capacity</span>[<span style=color:#2aa198;font-weight:700>0</span>][<span style=color:#268bd2>cow_offset</span> + <span style=color:#268bd2>i</span>] = <span style=color:#2aa198;font-weight:700>1</span>;
+
+    <span style=color:#93a1a1;font-style:italic>// cow to house
+</span><span style=color:#93a1a1;font-style:italic></span>    <span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>S</span>, <span style=color:#268bd2>temp</span>;
+    <span style=color:#268bd2>in1</span>(<span style=color:#268bd2>S</span>);
+    <span style=color:#268bd2>reap</span>(<span style=color:#268bd2>j</span>, <span style=color:#2aa198;font-weight:700>0</span>, <span style=color:#268bd2>S</span>) {
+      <span style=color:#268bd2>in1</span>(<span style=color:#268bd2>temp</span>);
+      <span style=color:#268bd2>capacity</span>[<span style=color:#268bd2>cow_offset</span> + <span style=color:#268bd2>i</span>][<span style=color:#268bd2>house_offset</span> + <span style=color:#268bd2>temp</span> - <span style=color:#2aa198;font-weight:700>1</span>] = <span style=color:#2aa198;font-weight:700>1</span>;
+    }
+  }
+
+  <span style=color:#93a1a1;font-style:italic>// house to sink
+</span><span style=color:#93a1a1;font-style:italic></span>  <span style=color:#268bd2>reap</span>(<span style=color:#268bd2>i</span>, <span style=color:#2aa198;font-weight:700>0</span>, <span style=color:#268bd2>M</span>) { <span style=color:#268bd2>capacity</span>[<span style=color:#268bd2>house_offset</span> + <span style=color:#268bd2>i</span>][<span style=color:#2aa198;font-weight:700>1</span>] = <span style=color:#2aa198;font-weight:700>1</span>; }
+
+  <span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>answer</span> = <span style=color:#268bd2>solve</span>();
+  <span style=color:#268bd2>out1</span>(<span style=color:#268bd2>answer</span>);
+
+  <span style=color:#859900>return</span> <span style=color:#2aa198;font-weight:700>0</span>;
+}
+
+<span style=color:#93a1a1;font-style:italic>// 0 -&gt; 1 길 찾기
+</span><span style=color:#93a1a1;font-style:italic></span><span style=color:#859900;font-weight:700>bool</span> <span style=color:#268bd2>bfs</span>(<span style=color:#859900;font-weight:700>int</span> *<span style=color:#268bd2>parent</span>) {
+  <span style=color:#268bd2>queue</span>&lt;<span style=color:#859900;font-weight:700>int</span>&gt; <span style=color:#268bd2>q</span>;
+  <span style=color:#268bd2>q</span>.<span style=color:#268bd2>push</span>(<span style=color:#2aa198;font-weight:700>0</span>);
+
+  <span style=color:#859900>while</span> (!<span style=color:#268bd2>q</span>.<span style=color:#268bd2>empty</span>()) {
+    <span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>cur</span> = <span style=color:#268bd2>q</span>.<span style=color:#268bd2>front</span>();
+    <span style=color:#268bd2>q</span>.<span style=color:#268bd2>pop</span>();
+
+    <span style=color:#268bd2>reap</span>(<span style=color:#268bd2>i</span>, <span style=color:#2aa198;font-weight:700>0</span>, <span style=color:#268bd2>map_size</span> + <span style=color:#2aa198;font-weight:700>1</span>) {
+      <span style=color:#859900>if</span> (<span style=color:#268bd2>parent</span>[<span style=color:#268bd2>i</span>] == -<span style=color:#2aa198;font-weight:700>1</span> &amp;&amp; <span style=color:#268bd2>capacity</span>[<span style=color:#268bd2>cur</span>][<span style=color:#268bd2>i</span>] &gt; <span style=color:#268bd2>flow</span>[<span style=color:#268bd2>cur</span>][<span style=color:#268bd2>i</span>]) {
+        <span style=color:#268bd2>parent</span>[<span style=color:#268bd2>i</span>] = <span style=color:#268bd2>cur</span>;
+
+        <span style=color:#859900>if</span> (<span style=color:#268bd2>i</span> == <span style=color:#2aa198;font-weight:700>1</span>)
+          <span style=color:#859900>return</span> <span style=color:#cb4b16>true</span>;
+        <span style=color:#268bd2>q</span>.<span style=color:#268bd2>push</span>(<span style=color:#268bd2>i</span>);
+      }
+    }
+  }
+
+  <span style=color:#859900>return</span> <span style=color:#cb4b16>false</span>;
+}
+
+<span style=color:#93a1a1;font-style:italic>// 0 -&gt; 1 최대 유량 구하기
+</span><span style=color:#93a1a1;font-style:italic></span><span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>solve</span>() {
+  <span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>res</span> = <span style=color:#2aa198;font-weight:700>0</span>;
+  <span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>parent</span>[<span style=color:#268bd2>MAX_MAP_SIZE</span>];
+
+  <span style=color:#859900>while</span> (<span style=color:#cb4b16>true</span>) {
+    <span style=color:#268bd2>memset</span>(<span style=color:#268bd2>parent</span>, -<span style=color:#2aa198;font-weight:700>1</span>, <span style=color:#859900>sizeof</span>(<span style=color:#268bd2>parent</span>));
+    <span style=color:#859900>if</span> (!<span style=color:#268bd2>bfs</span>(<span style=color:#268bd2>parent</span>))
+      <span style=color:#859900>break</span>;
+
+    <span style=color:#93a1a1;font-style:italic>// 유량 구하기
+</span><span style=color:#93a1a1;font-style:italic></span>    <span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>max_flow</span> = <span style=color:#268bd2>INT_MAX</span>;
+    <span style=color:#93a1a1;font-style:italic>// out1(&#34;&#34;);
+</span><span style=color:#93a1a1;font-style:italic></span>    <span style=color:#859900>for</span> (<span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>cur</span> = <span style=color:#2aa198;font-weight:700>1</span>; <span style=color:#268bd2>cur</span> != <span style=color:#2aa198;font-weight:700>0</span>; <span style=color:#268bd2>cur</span> = <span style=color:#268bd2>parent</span>[<span style=color:#268bd2>cur</span>]) {
+      <span style=color:#93a1a1;font-style:italic>// out1(cur);
+</span><span style=color:#93a1a1;font-style:italic></span>      <span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>p</span> = <span style=color:#268bd2>parent</span>[<span style=color:#268bd2>cur</span>];
+      <span style=color:#268bd2>max_flow</span> = <span style=color:#268bd2>min</span>(<span style=color:#268bd2>max_flow</span>, <span style=color:#268bd2>capacity</span>[<span style=color:#268bd2>p</span>][<span style=color:#268bd2>cur</span>] - <span style=color:#268bd2>flow</span>[<span style=color:#268bd2>p</span>][<span style=color:#268bd2>cur</span>]);
+    }
+
+    <span style=color:#93a1a1;font-style:italic>// update
+</span><span style=color:#93a1a1;font-style:italic></span>    <span style=color:#859900>for</span> (<span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>cur</span> = <span style=color:#2aa198;font-weight:700>1</span>; <span style=color:#268bd2>cur</span> != <span style=color:#2aa198;font-weight:700>0</span>; <span style=color:#268bd2>cur</span> = <span style=color:#268bd2>parent</span>[<span style=color:#268bd2>cur</span>]) {
+      <span style=color:#859900;font-weight:700>int</span> <span style=color:#268bd2>p</span> = <span style=color:#268bd2>parent</span>[<span style=color:#268bd2>cur</span>];
+      <span style=color:#268bd2>flow</span>[<span style=color:#268bd2>p</span>][<span style=color:#268bd2>cur</span>] += <span style=color:#268bd2>max_flow</span>;
+      <span style=color:#268bd2>flow</span>[<span style=color:#268bd2>cur</span>][<span style=color:#268bd2>p</span>] -= <span style=color:#268bd2>max_flow</span>;
+    }
+
+    <span style=color:#268bd2>res</span> += <span style=color:#268bd2>max_flow</span>;
+  }
+  <span style=color:#859900>return</span> <span style=color:#268bd2>res</span>;
+}
+</code></pre></div></article></div></div></body></html>
